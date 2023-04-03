@@ -1,0 +1,17 @@
+{
+    "name": "rms/apiclient",
+    "description": "library to connect to rms payment gateway.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mohd hafeez johari",
+            "email": "hafeez.johari@razer.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "RMS\\ApiClient\\": "src/"
+        }
+    }
+}
