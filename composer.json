@@ -1,17 +1,19 @@
 {
-    "name": "rms/apiclient",
-    "description": "library to connect to rms payment gateway.",
+    "name": "hafeez.johari/rms-php",
+    "description": "rms client",
     "type": "library",
     "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "HafeezJohari\\RmsPhp\\": "src/"
+        }
+    },
     "authors": [
         {
-            "name": "mohd hafeez johari",
+            "name": "hafeez",
             "email": "hafeez.johari@razer.com"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "RMS\\ApiClient\\": "src/"
-        }
-    }
+    "minimum-stability": "stable",
+    "require": {}
 }
