@@ -1,11 +1,11 @@
 {
-    "name": "hafeez.johari/rms-php",
-    "description": "rms client",
+    "name": "rms/apiclient",
+    "description": "this is library for rms api",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "HafeezJohari\\RmsPhp\\": "src/"
+            "Rms\\Apiclient\\": "src/"
         }
     },
     "authors": [
@@ -14,6 +14,5 @@
             "email": "hafeez.johari@razer.com"
         }
     ],
-    "minimum-stability": "stable",
     "require": {}
 }
