@@ -1,8 +1,8 @@
 <?php
 
-namespace RMS\ApiClient;
+namespace RMS;
 
-class Gateway
+class ApiClient
 {
     /**
      * Get the name of the gateway.
@@ -11,6 +11,6 @@ class Gateway
      */
     public function getName()
     {
-        return 'Razer Merchant Services';
+        echo 'Razer Merchant Services';
     }
 }
