@@ -7,6 +7,7 @@ class ApiClient
     public function __construct() 
     {
         $this->paymentUrl = "https://pay.merchant.razer.com";
+        $this->txntype =  "SALS";
     }
 
     /**
@@ -140,6 +141,18 @@ class ApiClient
     }
 
     /**
+     * Set channel.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setChannel($value)
+    {
+        $this->channel =  $value;
+    }
+
+    /**
      * Set callbackurl.
      *
      * @param string $value
@@ -149,6 +162,30 @@ class ApiClient
     public function setCallbackUrl($value)
     {
         $this->callbackurl =  $value;
+    }
+
+    /**
+     * Set notifyurl.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setNotifyUrl($value)
+    {
+        $this->notifyurl =  $value;
+    }
+
+    /**
+     * Set txntype.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setTxnType($value)
+    {
+        $this->txntype =  $value;
     }
 
     /**
@@ -188,6 +225,7 @@ class ApiClient
                 . "<input type='hidden' name='merchant_id' value='".$this->merchantId."'>"
                 . "<input type='hidden' name='amount' value='".$this->amount."'>"
                 . "<input type='hidden' name='currency' value='".$this->currency."'>"
+                . "<input type='hidden' name='channel' value='".$this->channel."'>"
                 . "<input type='hidden' name='orderid' value='".$this->orderid."'>"
                 . "<input type='hidden' name='bill_name' value='".$this->billname."'>"
                 . "<input type='hidden' name='bill_email' value='".$this->billemail."'>"
@@ -199,5 +237,47 @@ class ApiClient
                 . "<input type='submit' value='".$value."'>";
 
         return $html;
+    }
+
+    /**
+     * create direct server api call.
+     *
+     * @return $html
+     */
+    public function paymentViaDirectServer()
+    {
+        $params = array(
+            'MerchantID'            => $this->merchantId,
+            'ReferenceNo'           => $this->orderid,
+            'TxnType'               => $this->txntype,
+            'TxnChannel'            => $this->channel,
+            'TxnCurrency'           => $this->currency,
+            'TxnAmount'             => $this->amount,
+            'CustName'              => $this->billname,
+            'CustEmail'             => $this->billemail,
+            'CustContact'           => $this->billmobile,
+            'CustDesc'              => $this->billdesc,
+            'Signature'             => $this->vcode,
+            'ReturnURL'             => $this->returnurl,
+            'CallbackURL'           => $this->callbackurl,
+            'NotificationURL'       => $this->notifyurl
+        );
+
+        $params = http_build_query($params);
+        $header[] = "Content-Type: application/x-www-form-urlencoded";
+
+        $ch = curl_init( $this->paymentUrl."/RMS/API/Direct/1.4.0/index.php" );
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt( $ch, CURLOPT_FRESH_CONNECT, 1);  // TRUE to force the use of a new connection instead of a cached one.
+        curl_setopt( $ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
+        $result = curl_exec( $ch );
+        curl_close( $ch );
+
+        return $result;
     }
 }
